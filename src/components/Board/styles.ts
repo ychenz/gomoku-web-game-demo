@@ -5,4 +5,8 @@ const Board = styled.div`
   height: 400px;
 `;
 
+export const Row = styled.div`
+  display: flex;
+`;
+
 export const Root = Board;

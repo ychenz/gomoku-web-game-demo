@@ -5,6 +5,6 @@ const rootReducer = combineReducers({
   board: boardReducer,
 });
 
-export type RootState = ReturnType<typeof rootReducer>
+export type State = ReturnType<typeof rootReducer>
 
 export default rootReducer;

@@ -1,7 +1,8 @@
 import React, { useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { initBoard } from "src/reducers/board";
+import { initBoard, PositionRecord } from "src/reducers/board";
 
+import { Position } from "./Position";
 import * as S from "./styles";
 
 interface Props {
@@ -19,11 +20,17 @@ export function Board(props: Props): React.ReactElement {
 
   useEffect(() => {
     initBoardAction();
-  },[initBoardAction]);
+  }, [initBoardAction]);
 
   return (
     <S.Root>
-      Board
+      {[...Array(dimension).keys()].map(y => (
+        <S.Row>
+          {[...Array(dimension).keys()].map(x => (
+            <Position x={x} y={y} />
+          ))}
+        </S.Row>
+      ))}
     </S.Root>
   );
 }
