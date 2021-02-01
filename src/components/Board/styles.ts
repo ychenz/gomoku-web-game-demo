@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 const Board = styled.div`
-  width: 400px;
-  height: 400px;
+  width: 360px;
+  height: 360px;
 `;
 
 export const Row = styled.div`

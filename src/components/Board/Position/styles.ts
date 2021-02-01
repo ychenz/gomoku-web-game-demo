@@ -1,8 +1,9 @@
 import styled from "styled-components";
+import { Player, PlayerType } from "src/reducers/board";
 
 const width = "24px";
 
-const Position = styled.button`
+const Position = styled.button<{ disabled: boolean }>`
   width: ${width};
   height: ${width};
   position: relative;
@@ -11,23 +12,63 @@ const Position = styled.button`
   border: none;
   padding: 0;
   cursor: pointer;
+  
+  ${p => p.disabled && `
+    pointer-events: none;
+  `}
 `;
 
-export const Vertical = styled.div`
+export const Vertical = styled.div<{ isBold?: boolean }>`
   position: absolute;
-  left: 50%;
+  left: calc(50% - 0.5px); // need to consider 1px of border width
   top: 0;
   height: 100%;
   border-left: 1px solid black;
+
+  ${p => p.isBold && `
+    left: calc(50% - 1px);
+    border-left: 2px solid black;
+  `}
 `;
 
-export const Horizontal = styled.div`
+export const Horizontal = styled.div<{ isBold?: boolean }>`
   position: absolute;
-  top: 50%;
+  top: calc(50% - 0.5px); // need to consider 1px of border width
   left: 0;
   width: 100%;
   border-top: 1px solid black;
+  
+  ${p => p.isBold && `
+    top: calc(50% - 1px);
+    border-top: 2px solid black;
+  `}
 `;
 
+export const Holder = styled.div<{ placeHolder: PlayerType }>`
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: 4px;
+  top: 4px;
+  
+  background: black;
+  transform: rotate(45deg);
+  
+  ${p => p.placeHolder === Player.white && `
+    background: white;
+    border: 1px solid black;
+  `}
+`;
+
+export const HoverIconContainer = styled.div`
+  display: none;
+  position: absolute;
+  top: -1.5px;
+  left: -1.5px;
+  
+  ${Position}:hover & {
+    display: inherit;
+  }
+`;
 
 export const Root = Position;
