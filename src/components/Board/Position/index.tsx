@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 
 import { usePosition, useBoard } from "src/reducers/board/hooks";
-import { Player, placeMove } from "src/reducers/board";
+import { Player, placeMove, PlayerType } from "src/reducers/board";
 
 import PositionHoverIcon from "./PositionHover.svg";
 import * as S from "./styles";
@@ -27,7 +27,10 @@ export function Position(props: Props): React.ReactElement {
       <S.HoverIconContainer>
         <img src={PositionHoverIcon} alt="logo" />
       </S.HoverIconContainer>
-      { position?.placeholder && <S.Holder placeHolder={position.placeholder} />}
+      <S.Holder
+        isVisible={Boolean(position?.placeholder)}
+        placeHolder={position?.placeholder as PlayerType}
+      />
       <S.Horizontal isBold={y === Math.floor(board.dimension / 2)} />
       <S.Vertical isBold={x === Math.floor(board.dimension / 2)} />
     </S.Root>

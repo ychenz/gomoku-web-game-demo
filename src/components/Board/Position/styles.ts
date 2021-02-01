@@ -44,20 +44,27 @@ export const Horizontal = styled.div<{ isBold?: boolean }>`
   `}
 `;
 
-export const Holder = styled.div<{ placeHolder: PlayerType }>`
+export const Holder = styled.div<{ isVisible: boolean, placeHolder: PlayerType }>`
   position: absolute;
   width: 16px;
   height: 16px;
   left: 4px;
   top: 4px;
-  
   background: black;
   transform: rotate(45deg);
   
   ${p => p.placeHolder === Player.white && `
     background: white;
     border: 1px solid black;
-  `}
+  `};
+  
+  // Animation
+  opacity: 0;
+  transition: opacity .2s ease;
+  
+  ${p => p.isVisible && `
+    opacity: 1;
+  `};
 `;
 
 export const HoverIconContainer = styled.div`
