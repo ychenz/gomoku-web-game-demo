@@ -25,6 +25,7 @@ export function Position(props: Props): React.ReactElement {
 
   return (
     <S.Root disabled={Boolean(position?.placeholder)} onClick={onPositionClick}>
+      {position?.isRecentMove && <S.PositionHighlight />}
       <S.HoverIconContainer>
         <img src={PositionHoverIcon} alt="logo" />
       </S.HoverIconContainer>

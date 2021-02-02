@@ -38,10 +38,11 @@ export function getBestMove(
           bestPosition = { r, c };
       }
 
-      // Clear score
+      // Clear score & isRecentMove (removes previous highlight)
       board2D[r][c] = new PositionRecord({
         ...board2D[r][c].toJS(),
-        score: 0
+        score: 0,
+        isRecentMove: false
       });
     }
   }
@@ -49,7 +50,8 @@ export function getBestMove(
   // White move to best possible spot
   board2D[bestPosition.r][bestPosition.c] = new PositionRecord({
     ...board2D[bestPosition.r][bestPosition.c].toJS(),
-    placeholder: Player.white
+    placeholder: Player.white,
+    isRecentMove: true
   });
 
   const newPositionsList = positionList.map(position => board2D[position.y][position.x]);

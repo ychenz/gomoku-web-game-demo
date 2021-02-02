@@ -48,14 +48,14 @@ export const Holder = styled.div<{ isVisible: boolean, placeHolder: PlayerType }
   position: absolute;
   width: 16px;
   height: 16px;
-  left: 4px;
-  top: 4px;
+  border: 1px solid black;
+  left: 3px;
+  top: 3px;
   background: black;
   transform: rotate(45deg);
   
   ${p => p.placeHolder === Player.white && `
     background: white;
-    border: 1px solid black;
     z-index: 1;
   `};
   
@@ -77,6 +77,16 @@ export const HoverIconContainer = styled.div`
   ${Position}:hover & {
     display: inherit;
   }
+`;
+
+export const PositionHighlight = styled.div`
+  height: 4px;
+  width: 4px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: black;
+  z-index: 2;
 `;
 
 export const Root = Position;
