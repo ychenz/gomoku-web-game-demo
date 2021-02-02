@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Player, PlayerType } from "src/reducers/board";
+import { Player, PlayerType } from "src/reducers/board/types";
 
 const width = "24px";
 
@@ -56,6 +56,7 @@ export const Holder = styled.div<{ isVisible: boolean, placeHolder: PlayerType }
   ${p => p.placeHolder === Player.white && `
     background: white;
     border: 1px solid black;
+    z-index: 1;
   `};
   
   // Animation

@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { initBoard, PositionRecord } from "src/reducers/board";
+import { initBoard } from "src/reducers/board";
 
 import { Position } from "./Position";
 import * as S from "./styles";
@@ -25,9 +25,9 @@ export function Board(props: Props): React.ReactElement {
   return (
     <S.Root>
       {[...Array(dimension).keys()].map(y => (
-        <S.Row>
+        <S.Row key={y}>
           {[...Array(dimension).keys()].map(x => (
-            <Position x={x} y={y} />
+            <Position key={`${y}-${x}`} x={x} y={y} />
           ))}
         </S.Row>
       ))}

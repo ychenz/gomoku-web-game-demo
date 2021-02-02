@@ -2,7 +2,8 @@ import React from "react";
 import { useDispatch } from "react-redux";
 
 import { usePosition, useBoard } from "src/reducers/board/hooks";
-import { Player, placeMove, PlayerType } from "src/reducers/board";
+import { placeMove } from "src/reducers/board";
+import { Player, PlayerType } from "src/reducers/board/types";
 
 import PositionHoverIcon from "./PositionHover.svg";
 import * as S from "./styles";
