@@ -18,6 +18,7 @@ export function getBestMove(
     board2D[position.y][position.x] = position;
   });
 
+  // Evaluating current situation and updating scores for all positions
   board2D = evalSituation(player, board2D, dimension);
 
   /**
@@ -37,7 +38,7 @@ export function getBestMove(
           bestPosition = { r, c };
       }
 
-      // clear score
+      // Clear score
       board2D[r][c] = new PositionRecord({
         ...board2D[r][c].toJS(),
         score: 0
