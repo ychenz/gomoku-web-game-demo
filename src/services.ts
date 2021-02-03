@@ -12,7 +12,7 @@ export function makeBestMove(
   // Evaluating current situation and updating scores for all positions
   const board2D = evalSituation(player, board, dimension);
 
-  const bestPosition = getBestMove(board2D, dimension);
+  const bestPosition = getBestMoveAndResetScore(board2D, dimension);
 
   // White move to best possible spot
   board2D[bestPosition.r][bestPosition.c] = new PositionRecord({
@@ -42,7 +42,7 @@ export function convertTo2DBoard(
   return board2D;
 }
 
-export function getBestMove(
+export function getBestMoveAndResetScore(
   board2D: PositionRecord[][],
   dimension: number
 ): { r: number, c: number } {
@@ -425,7 +425,7 @@ export function checkWinner(
 
   // Return null if game is not over yet
   for (let r=0; r < dimension; r += 1){
-    for (let c=0; c<dimension; c += 1){
+    for (let c=0; c < dimension; c += 1){
       if (!board[r][c].placeholder) {
         return null;
       }
