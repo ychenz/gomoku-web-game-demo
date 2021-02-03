@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import Immutable from "immutable";
 
-import { getBestMove } from "src/services";
+import { convertTo2DBoard, makeBestMove, checkWinner } from "src/services";
 
-import { Player, PositionRecord } from "./types";
+import { Player, PlayerType, PositionRecord } from "./types";
 
 const boardReducerName = "board";
 
@@ -20,10 +20,19 @@ interface placeMovePayload {
   placeholder: string;
 }
 
+type BoardState = {
+  dimension: number;
+  positions: Immutable.List<PositionRecord>;
+  currentMove: number;
+  winner: PlayerType|null|"draw";
+}
+
 // Initial state
-const initialState = {
+const initialState: BoardState = {
   dimension: 15,
-  positions: Immutable.List<PositionRecord>([])
+  positions: Immutable.List<PositionRecord>([]),
+  currentMove: 0,
+  winner: null
 };
 
 const boardSlice = createSlice({
@@ -44,6 +53,7 @@ const boardSlice = createSlice({
       });
 
       return {
+        ...state,
         dimension,
         positions: Immutable.List(positions)
       };
@@ -51,19 +61,48 @@ const boardSlice = createSlice({
     placeMove(state, action: PayloadAction<placeMovePayload>) {
        const { x, y, placeholder } = action.payload;
        const prevPositions = state.positions;
+       let moveCount = state.currentMove + 1;
 
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      let newPositions = prevPositions.map(position => (
+      let newPositions: PositionRecord[] = prevPositions.map(position => (
         position.x === x && position.y === y ? new PositionRecord({
           ...position.toJS(),
-          placeholder
+          placeholder,
+          moveCount
         }): position
       ));
 
-      // Bot making move
-      newPositions = getBestMove(Player.white, newPositions, state.dimension);
+      // Expand to 2D board for easier access
+      let board2D = convertTo2DBoard(newPositions, state.dimension);
+
+      // Check if black wins
+      let winner = checkWinner(board2D, state.dimension);
+
+      if (winner) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        state.positions = newPositions;
+        state.currentMove = moveCount;
+        state.winner = winner;
+
+        return;
+      }
+
+      // White (bot) making move
+      moveCount += 1;
+      board2D = makeBestMove(Player.white, board2D, state.dimension, moveCount);
+
+      newPositions = newPositions.map(position => board2D[position.y][position.x]);
+
+      // Check if white wins
+      winner = checkWinner(board2D, state.dimension);
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       state.positions = newPositions;
+      state.currentMove = moveCount;
+      state.winner = winner;
     }
   }
 });

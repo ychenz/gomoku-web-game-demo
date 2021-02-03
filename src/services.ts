@@ -3,13 +3,34 @@ import { Player, PlayerType, PositionRecord } from "./reducers/board/types";
 const attackScore = [0, 2, 18, 162, 1458];
 const defenceScore = [0, 1, 9, 81, 729];
 
-export function getBestMove(
+export function makeBestMove(
   player: PlayerType,
+  board: PositionRecord[][],
+  dimension: number,
+  currentMoveCount: number
+): PositionRecord[][] {
+  // Evaluating current situation and updating scores for all positions
+  const board2D = evalSituation(player, board, dimension);
+
+  const bestPosition = getBestMove(board2D, dimension);
+
+  // White move to best possible spot
+  board2D[bestPosition.r][bestPosition.c] = new PositionRecord({
+    ...board2D[bestPosition.r][bestPosition.c].toJS(),
+    placeholder: player,
+    isRecentMove: true,
+    moveCount: currentMoveCount
+  });
+
+  return board2D;
+}
+
+export function convertTo2DBoard(
   positionList: PositionRecord[],
-  dimension: number
-): PositionRecord[] {
+  dimension: number,
+): PositionRecord[][] {
   // Initializing a DxD array
-  let board2D: PositionRecord[][] = Array.from(
+  const board2D: PositionRecord[][] = Array.from(
     Array(dimension),
     () => new Array(dimension)
   );
@@ -18,9 +39,13 @@ export function getBestMove(
     board2D[position.y][position.x] = position;
   });
 
-  // Evaluating current situation and updating scores for all positions
-  board2D = evalSituation(player, board2D, dimension);
+  return board2D;
+}
 
+export function getBestMove(
+  board2D: PositionRecord[][],
+  dimension: number
+): { r: number, c: number } {
   /**
    * Determine best position
    */
@@ -47,16 +72,10 @@ export function getBestMove(
     }
   }
 
-  // White move to best possible spot
-  board2D[bestPosition.r][bestPosition.c] = new PositionRecord({
-    ...board2D[bestPosition.r][bestPosition.c].toJS(),
-    placeholder: Player.white,
-    isRecentMove: true
-  });
-
-  const newPositionsList = positionList.map(position => board2D[position.y][position.x]);
-
-  return newPositionsList;
+  return {
+    r: bestPosition.r,
+    c: bestPosition.c
+  };
 }
 
 export function evalSituation(
@@ -303,4 +322,115 @@ export function evalSituation(
   }
 
   return board;
+}
+
+export function checkWinner(
+  board: PositionRecord[][],
+  dimension: number
+): PlayerType|null|"draw" {
+  let pPlayer1;
+  let pPlayer2;
+
+  // scan all positions horizontally
+  for (let r = 0; r < dimension; r += 1){
+    for (let c = 0; c < dimension - 4; c += 1){
+      pPlayer1 = 0;
+      pPlayer2 = 0;
+      
+      for (let i = 0; i < 5; i += 1) {
+        if (board[r][c + i].placeholder === Player.black)
+            pPlayer1 += 1; // num of black in these 5
+        if (board[r][c + i].placeholder === Player.white)
+            pPlayer2 += 1; // num of white in these 5
+      }
+
+      if ( pPlayer1 === 5 ){
+        return Player.black;
+      }
+
+      if ( pPlayer2 === 5){
+        return Player.white;
+      }
+    }
+  }
+
+  // scan all positions vertically
+  for (let c = 0; c < dimension; c += 1){
+    for (let r = 0; r < dimension - 4; r += 1){
+      pPlayer1 = 0;
+      pPlayer2 = 0;
+
+      for (let i = 0; i < 5; i += 1) {
+        if (board[r+i][c].placeholder === Player.black)
+            pPlayer1 += 1; // num of black in these 5
+        if (board[r+i][c].placeholder === Player.white)
+            pPlayer2 += 1; // num of white in these 5
+      }
+
+      if ( pPlayer1 === 5 ){
+        return Player.black;
+      }
+
+      if ( pPlayer2 === 5){
+        return Player.white;
+      }
+    }
+  }
+
+  // scan all positions from left-top to right-bottom
+  for (let c = 0; c < dimension - 4; c += 1){
+    for (let r = 0; r < dimension - 4; r += 1){
+      pPlayer1 = 0;
+      pPlayer2 = 0;
+
+      for (let i = 0; i < 5; i += 1) {
+        if (board[r + i][c + i].placeholder === Player.black)
+            pPlayer1 += 1; // num of black in these 5
+        if (board[r + i][c + i].placeholder === Player.white)
+            pPlayer2 += 1; // num of white in these 5
+      }
+
+      if ( pPlayer1 === 5 ){
+        return Player.black;
+      }
+
+      if ( pPlayer2 === 5){
+        return Player.white;
+      }
+    }
+  }
+
+  // scan all positions from left-bottom to right-top
+  for (let r = 4; r < dimension; r += 1){
+    for (let c = 0; c < dimension - 4; c += 1){
+      pPlayer1 = 0;
+      pPlayer2 = 0;
+
+      for (let i = 0; i < 5; i += 1) {
+        if (board[r-i][c+i].placeholder === Player.black)
+            pPlayer1 += 1; // num of black in these 5
+        if (board[r-i][c+i].placeholder === Player.white)
+            pPlayer2 += 1; // num of white in these 5
+      }
+
+      if ( pPlayer1 === 5 ){
+        return Player.black;
+      }
+
+      if ( pPlayer2 === 5){
+        return Player.white;
+      }
+    }
+  }
+
+  // Return null if game is not over yet
+  for (let r=0; r < dimension; r += 1){
+    for (let c=0; c<dimension; c += 1){
+      if (!board[r][c].placeholder) {
+        return null;
+      }
+    }
+  }
+  
+  return "draw";
 }
