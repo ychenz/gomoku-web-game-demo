@@ -89,4 +89,14 @@ export const PositionHighlight = styled.div`
   z-index: 2;
 `;
 
+export const HintMove = styled.div`
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: 4px;
+  top: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  transform: rotate(45deg);
+`;
+
 export const Root = Position;

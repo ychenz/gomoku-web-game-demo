@@ -1,3 +1,4 @@
+import { List } from "immutable";
 import { Player, PlayerType, PositionRecord } from "./reducers/board/types";
 
 const attackScore = [0, 2, 18, 162, 1458];
@@ -26,7 +27,7 @@ export function makeBestMove(
 }
 
 export function convertTo2DBoard(
-  positionList: PositionRecord[],
+  positionList: List<PositionRecord>,
   dimension: number,
 ): PositionRecord[][] {
   // Initializing a DxD array

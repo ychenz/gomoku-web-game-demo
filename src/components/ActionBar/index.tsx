@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 
 import { useBoard } from "src/reducers/board/hooks";
 import { Player } from "src/reducers/board/types";
-import { resetBoard } from "src/reducers/board";
+import { resetBoard, undoMove, showHint } from "src/reducers/board";
 
 import IconCelebrate from "./IconCelebrate.svg";
 import IconSkull from "./IconSkull.svg";
@@ -14,8 +14,16 @@ export function ActionBar(): React.ReactElement {
   const board = useBoard();
   const { winner } = board;
 
-  const onRestClick = () => {
+  const onResetClick = () => {
     dispatch(resetBoard());
+  };
+
+  const onUndoClick = () => {
+    dispatch(undoMove());
+  };
+
+  const onHintClick = () => {
+    dispatch(showHint());
   };
 
   return (
@@ -49,12 +57,12 @@ export function ActionBar(): React.ReactElement {
 
       {!winner && (
         <>
-          <S.Button>UNDO</S.Button>
-          <S.Button>HINT</S.Button>
+          <S.Button onClick={onUndoClick}>UNDO</S.Button>
+          <S.Button onClick={onHintClick}>HINT</S.Button>
         </>
       )}
 
-      <S.Button onClick={onRestClick}>RESET</S.Button>
+      <S.Button onClick={onResetClick}>RESET</S.Button>
     </S.Root>
   );
 }
