@@ -45,10 +45,7 @@ const boardSlice = createSlice({
 
       [...Array(dimension).keys()].forEach(y => {
         [...Array(dimension).keys()].forEach(x => {
-          positions.push(new PositionRecord({
-            x,
-            y,
-          }));
+          positions.push(new PositionRecord({ x, y }));
         });
       });
 
@@ -56,6 +53,23 @@ const boardSlice = createSlice({
         ...state,
         dimension,
         positions: Immutable.List(positions)
+      };
+    },
+    resetBoard(state) {
+      const { dimension } = state;
+      const newPositions: PositionRecord[] = [];
+
+      [...Array(dimension).keys()].forEach(y => {
+        [...Array(dimension).keys()].forEach(x => {
+          newPositions.push(new PositionRecord({ x, y }));
+        });
+      });
+
+      return {
+        ...state,
+        winner: null,
+        currentMove: 0,
+        positions: Immutable.List(newPositions)
       };
     },
     placeMove(state, action: PayloadAction<placeMovePayload>) {
@@ -109,6 +123,7 @@ const boardSlice = createSlice({
 
 export const {
   initBoard,
+  resetBoard,
   placeMove
 } = boardSlice.actions;
 

@@ -1,13 +1,15 @@
 import React from "react";
 import { Board } from "./components/Board";
+import { ActionBar } from "./components/ActionBar";
 import "./App.css";
 
 function App(): React.ReactElement {
   return (
     <div className="App">
-      <header className="App-header">
+      <div className="App-Content">
         <Board dimension={15} />
-      </header>
+        <ActionBar />
+      </div>
     </div>
   );
 }
