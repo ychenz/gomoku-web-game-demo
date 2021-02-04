@@ -7,11 +7,10 @@ import * as S from "./styles";
 
 interface Props {
   dimension: number;
-  showBorder?: boolean;
 }
 
 export function Board(props: Props): React.ReactElement {
-  const { dimension, showBorder } = props;
+  const { dimension } = props;
   const dispatch = useDispatch();
 
   const initBoardAction = useCallback(() => {
@@ -34,7 +33,3 @@ export function Board(props: Props): React.ReactElement {
     </S.Root>
   );
 }
-
-Board.defaultProps = {
-  showBorder: true
-};

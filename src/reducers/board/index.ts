@@ -26,7 +26,7 @@ interface placeMovePayload {
   placeholder: string;
 }
 
-type BoardState = {
+export interface BoardState {
   dimension: number;
   positions: List<PositionRecord>;
   currentMove: number;
@@ -89,7 +89,8 @@ const boardSlice = createSlice({
             ...position.toJS(),
             placeholder: null,
             moveCount: 0,
-            isRecentMove: false
+            isRecentMove: false,
+            isHintMove: false  // Clear any hint
           });
         }
 

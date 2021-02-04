@@ -12,7 +12,7 @@ export const Button = styled.button`
   text-align: left;
   padding: 4px;
   font-weight: 500;
-  font-family: "Saira, sans-serif";
+  font-family: Saira, sans-serif;
   font-size: 16px;
   line-height: 20px;
   text-decoration-line: underline;

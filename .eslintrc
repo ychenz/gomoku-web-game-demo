@@ -65,7 +65,7 @@
       }
     ],
 
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
     "react/prop-types": 0,
 
     // React hook rules required in docs: https://reactjs.org/docs/hooks-rules.html
