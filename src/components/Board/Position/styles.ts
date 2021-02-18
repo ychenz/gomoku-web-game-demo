@@ -12,6 +12,7 @@ const Position = styled.button<{ disabled: boolean }>`
   border: none;
   padding: 0;
   cursor: pointer;
+  z-index: 1; // Should be placed above board and frame
   
   ${p => p.disabled && `
     pointer-events: none;
@@ -52,7 +53,7 @@ export const Holder = styled.div<{ isVisible: boolean, placeHolder: PlayerType }
   left: 3px;
   top: 3px;
   background: black;
-  transform: rotate(45deg);
+  border-radius: 50%;
   
   ${p => p.placeHolder === Player.white && `
     background: white;

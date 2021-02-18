@@ -103,6 +103,14 @@ const boardSlice = createSlice({
           });
         }
 
+        // Remove any hints
+        if (position.isHintMove) {
+          return new PositionRecord({
+            ...position.toJS(),
+            isHintMove: false
+          });
+        }
+
         return position;
       });
 

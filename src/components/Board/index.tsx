@@ -21,15 +21,35 @@ export function Board(props: Props): React.ReactElement {
     initBoardAction();
   }, [initBoardAction]);
 
+  const renderCornerDecorators = () => (
+    <>
+      <S.FrameDecoratorContainer topAligned leftAligned>
+        <S.FrameDecorator topAligned leftAligned />
+      </S.FrameDecoratorContainer>
+      <S.FrameDecoratorContainer topAligned rightAligned>
+        <S.FrameDecorator topAligned rightAligned />
+      </S.FrameDecoratorContainer>
+      <S.FrameDecoratorContainer bottomAligned leftAligned>
+        <S.FrameDecorator bottomAligned leftAligned />
+      </S.FrameDecoratorContainer>
+      <S.FrameDecoratorContainer bottomAligned rightAligned>
+        <S.FrameDecorator bottomAligned rightAligned />
+      </S.FrameDecoratorContainer>
+    </>
+  );
+
   return (
     <S.Root>
-      {[...Array(dimension).keys()].map(y => (
-        <S.Row key={y}>
-          {[...Array(dimension).keys()].map(x => (
-            <Position key={`${y}-${x}`} x={x} y={y} />
-          ))}
-        </S.Row>
-      ))}
+      <S.Frame>
+        {renderCornerDecorators()}
+        {[...Array(dimension).keys()].map(y => (
+          <S.Row key={y}>
+            {[...Array(dimension).keys()].map(x => (
+              <Position key={`${y}-${x}`} x={x} y={y} />
+            ))}
+          </S.Row>
+        ))}
+      </S.Frame>
     </S.Root>
   );
 }
