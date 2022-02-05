@@ -10,4 +10,4 @@ A Gomoku game implemented in pure React/Redux/CSS. A live demo can be found [her
 
 ## Licence
 
-[MIT](https://opensource.org/licenses/MIT)
+[MIT](https://choosealicense.com/licenses/mit/)
